@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVENT_LIST</title>
+    <style>
+        div{
+            font-family: 'Cafe24Danjunghae';
+        }
+        .event-title{
+            color: gray;
+            margin-left: 200px;
+            font-family: 'Cafe24Simplehae';
+        }
+        .page {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="event-title">
+        <span class="gray">home > event > 인증게시판</span>
+    </div>
+    <div class="writehead">
+        <div class= main_button style="margin-left: 220px; margin-top: 30px;">
+        <a role="button" class="btn btn-outline-secondary"  href="{% url 'create' %}">글쓰기</a>
+        </div>
+        <br>
+        <div class="container">
+            <h1>L.POINT 이벤트 인증 PAGE</h1>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" width="10%">NO.</th>
+                        <th scope="col" width="15%">TYPE</th>
+                        <th scope="col" width="25%">DATE</th>
+                        <th scope="col" width="35%">TITLE</th>
+                        <th scope="col" width="15%">AUTHOR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in obj %}
+                    <tr>
+                        <td>{{ post.id }}</td>
+                        <td>{{ post.event_choice }}</td>
+                        <td>{{ post.pub_date|date:"Y-m-d" }}</td>
+                        <td>
+                            <a href="{%url 'detail' post.pk %}">
+                            {{ post.title|truncatechars:30}}
+                            </a>
+                        </td>
+                        <td>{{ post.author }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="page">
+                {%if obj.has_previous%}
+                <a href="?page=1">First</a>
+                <a href="?page={{obj.previous_page_number}}">Previous</a>
+                {%endif%}
+
+                <span>{{obj.number}}</span>
+                <span>of</span>
+                <span>{{obj.paginator.num_pages}}</span>
+
+                {%if obj.has_next%}
+                <a href="?page={{obj.next_page_number}}">Next</a>
+                <a href="?page={{obj.paginator.num_pages}}">Last</a>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{%endblock%}

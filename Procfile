@@ -1,0 +1,1 @@
+web: gunicorn hackathon_Lpoint.wsgi --log-file -
